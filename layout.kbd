@@ -1,0 +1,96 @@
+(defcfg
+  	input  (device-file "/dev/input/by-id/usb-HOLDCHIP_USB_Gaming_Keyboard-event-kbd")
+  	output (uinput-sink "My KMonad output")
+  cmp-seq ralt    ;; Set the compose key to `RightAlt'
+
+  fallthrough false
+
+  allow-cmd true
+)
+
+
+
+(defsrc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \   end pgdn 
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft            
+  lctl lmet lalt           spc            ralt cmp  rctl            
+)
+
+(defalias
+  num  (layer-toggle numbers) ;; Bind num to a button that switches to a layer
+  pad  (tap-hold 200 tab (layer-toggle numbers))
+  tnm  (tap-hold 200 tab (layer-toggle numbers))
+  sym  (tap-hold 200 spc (layer-toggle numsymb))
+  cap  (tap-hold 200 esc (layer-toggle nav))
+  bsp  (tap-hold 200 bspc (around lctl bspc))
+  gam  (layer-switch gaming)
+  nor  (layer-switch qwerty)
+  com  #(, spc)
+  per  #(. spc)
+    
+    ctl_a (tap-hold-next-release 200 a lctl)
+    alt_s (tap-hold-next-release 200 s lalt)
+    met_d (tap-hold-next-release 200 d lmet)
+    sft_f (tap-hold-next-release 200 f lsft)
+
+    sft_j (tap-hold-next-release 200 j rsft)
+    met_k (tap-hold-next-release 200 k rmet)
+    alt_l (tap-hold-next-release 200 l lalt)
+    ctl_; (tap-hold-next-release 200 ; rctl) 
+
+    l1 (tap-hold-next-release 200 $ lctl)
+    l2 (tap-hold-next-release 200 + lalt)
+    l3 (tap-hold-next-release 200 \( lmet)
+    l4 (tap-hold-next-release 200 \) lsft)
+
+    r1 (tap-hold-next-release 200 - rsft)
+    r2 (tap-hold-next-release 200 = rmet)
+    r3 (tap-hold-next-release 200 \_ lalt)
+    r4 (tap-hold-next-release 200 * rctl) 
+
+
+)
+
+(deflayer qwerty
+  @tnm  q    w    e    r    t    y    u    i    o    p    @bsp _    _    _    @gam
+  @cap @ctl_a @alt_s @met_d @sft_f g h @sft_j @met_k @alt_l @ctl_;    ret   _
+  lsft z    x    c    v    b    n    m    @com  @per /    rsft
+  lctl @pad lalt           @sym           ralt cmp  rctl    
+)
+
+(deflayer template
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _    
+)
+
+
+(deflayer numsymb
+  _    1    2    3    4    5    6    7    8    9    0     \   _   _    _    _
+  _    @l1  @l2  @l3  @l4  @    |    @r1  @r2  @r3  @r4   '   _    
+  _    !    #    {    }    ~    &    [    ]    %    ^     _    
+  lsft    _    _              _              _    _    _    
+)
+
+(deflayer numbers
+  _    _    _    _    _    XX   kp/  kp7  kp8  kp9  kp-  _    _   _   _   _
+  _    _    _    _    _    XX   kp*  kp4  kp5  kp6  kp+  ret _    
+  _    _    \(   \)   .    XX   kp0  kp1  kp2  kp3  _    _
+  _    _    _              _              _    _    _    
+)
+
+(deflayer nav
+  _    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  _   _   _   _
+  _    pgdn pgup end  home del  _    left down up   rght _    _          
+  _    _    _    _    _    _    _    _    _    _    _    _   
+  _    _    _              _              _    _    _       
+)
+
+(deflayer gaming
+  tab  q    w    e    r    t    y    _    _    _    _    _    _   _    _    @nor
+  esc  a    s    d    f    g    h    _    k    _    _    _    ret 
+  lsft z    x    c    v    b    n    _    _    _    _    _
+  lctl _    lalt           spc            _    _    _
+)
