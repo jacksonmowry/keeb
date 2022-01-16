@@ -2,6 +2,10 @@
   	input  (device-file "/dev/input/by-id/usb-HOLDCHIP_USB_Gaming_Keyboard-event-kbd")
   	output (uinput-sink "My KMonad output")
   cmp-seq ralt    ;; Set the compose key to `RightAlt'
+  
+  ;; For Windows
+  ;; input  (low-level-hook)
+  ;; output (send-event-sink)
 
   fallthrough false
 
