@@ -30,8 +30,10 @@
   bsp  (tap-hold 200 bspc (around lctl bspc))
   gam  (layer-switch gaming)
   nor  (layer-switch qwerty)
-  com  #(, spc)
-  per  #(. spc)
+  com  (tap-macro , spc (release-only spc))
+  per  (tap-macro . spc (release-only spc))
+  co (tap-hold 150 @com , )
+  pe (tap-hold 150 @per . )
     
     ctl_a (tap-hold-next-release 200 a lctl)
     alt_s (tap-hold-next-release 200 s lalt)
@@ -59,7 +61,7 @@
 (deflayer qwerty
   @tnm  q    w    e    r    t    y    u    i    o    p    @bsp _    _    _    @gam
   @cap @ctl_a @alt_s @met_d @sft_f g h @sft_j @met_k @alt_l @ctl_;    ret   _
-  lsft z    x    c    v    b    n    m    @com  @per /    rsft
+  lsft z    x    c    v    b    n    m    @co  @pe /    rsft
   lctl @pad lalt           @sym           ralt cmp  rctl    
 )
 
@@ -79,9 +81,9 @@
 )
 
 (deflayer numbers
-  _    _    _    _    _    XX   kp/  kp7  kp8  kp9  kp-  _    _   _   _   _
-  _    _    _    _    _    XX   kp*  kp4  kp5  kp6  kp+  ret _    
-  _    _    \(   \)   .    XX   kp0  kp1  kp2  kp3  _    _
+  _    _    _    _    _    XX   /  7  8  9  -  _    _   _   _   _
+  _    _    _    _    _    XX   *  4  5  6  +  ret _    
+  _    _    \(   \)   .    XX   0  1  2  3  _    _
   _    _    _              _              _    _    _    
 )
 
