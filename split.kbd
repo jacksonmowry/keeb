@@ -1,0 +1,94 @@
+(defcfg
+  	input  (device-file "/dev/input/by-id/usb-weteor_3w6-event-kbd")
+  	output (uinput-sink "My KMonad output")
+  cmp-seq ralt    ;; Set the compose key to `RightAlt'
+
+  ;; For Windows
+  ;; input  (low-level-hook)
+  ;; output (send-event-sink)
+
+  fallthrough false
+
+  allow-cmd true
+)
+
+
+
+(defsrc
+  q w e r t y u i o p
+  a s d f g h j k l ;
+  z x c v b n m , . /
+   esc spc tab ret bspc del
+)
+
+(defalias
+  num  (layer-toggle numbers) ;; Bind num to a button that switches to a layer
+  pad  (tap-hold 200 tab (layer-toggle numbers))
+  tnm  (tap-hold 200 tab (layer-toggle numbers))
+  sym  (tap-hold 200 spc (layer-toggle numsymb))
+  cap  (tap-hold 200 esc (layer-toggle nav))
+  bsp  (tap-hold 200 bspc (around lctl bspc))
+;; com  (tap-macro , spc (release-only spc))
+;; per  (tap-macro . spc (release-only spc))
+;; co (tap-hold 200 @com , )
+;; pe (tap-hold 200 @per . )
+
+    ctl_a (tap-hold-next-release 200 a lctl)
+    alt_s (tap-hold-next-release 200 s lalt)
+    met_d (tap-hold-next-release 200 d lmet)
+    sft_f (tap-hold-next-release 200 f lsft)
+
+    sft_j (tap-hold-next-release 200 j rsft)
+    met_k (tap-hold-next-release 200 k rmet)
+    alt_l (tap-hold-next-release 200 l lalt)
+    ctl_; (tap-hold-next-release 200 ; rctl)
+
+    l1 (tap-hold-next-release 200 $ lctl)
+    l2 (tap-hold-next-release 200 + lalt)
+    l3 (tap-hold-next-release 200 \( lmet)
+    l4 (tap-hold-next-release 200 \) lsft)
+
+    r1 (tap-hold-next-release 200 - rsft)
+    r2 (tap-hold-next-release 200 = rmet)
+    r3 (tap-hold-next-release 200 \_ lalt)
+    r4 (tap-hold-next-release 200 * rctl)
+
+
+)
+
+(deflayer qwerty
+  q w e r t y u i o p
+  @ctl_a @alt_s @met_d @sft_f g h @sft_j @met_k @alt_l @ctl_;
+  z x c v b n m , . /
+  @cap @sym @tnm    ret @bsp '
+)
+
+(deflayer template
+  _    _    _    _    _              _    _    _    _    _
+  _    _    _    _    _              _    _    _    _    _
+  _    _    _    _    _              _    _    _    _    _
+                 _    _    _     _   _    _
+)
+
+
+(deflayer numsymb
+  1    2    3    4    5              6    7    8    9    0
+  @l1  @l2  @l3  @l4  @              |    @r1  @r2  @r3  @r4
+  !    #    {    }    ~              &    [    ]    %    ^
+                 _    _    _     '   \    _
+)
+
+(deflayer numbers
+  _    _    _    _    _              /    7    8    9    -
+  _    _    \(   \)   _              *    4    5    6    +
+  _    _    _    _    .              0    1    2    3    _
+                 _    _    _     _   _    _
+)
+
+(deflayer nav
+  f1   f2   f3   f4   f5             f6   f7   f8   f9   f10
+  pgdn pgup end  home del            _    left down up   rght
+  _    _    _    _    _              _    _    _    _    _
+                 _    _    _     _   _    _
+)
+
